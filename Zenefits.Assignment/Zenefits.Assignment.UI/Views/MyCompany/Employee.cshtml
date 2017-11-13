@@ -1,0 +1,66 @@
+﻿@model List<Zenefits.Assignment.Entities.EmployeeHierarchy>
+
+<div class="container-column-main">
+    <div class="column-main" role="main">
+        <article class="content">
+            
+            <div class="chart" id="collapsable-example"></div>
+        </article>
+    </div>
+</div>
+@section scripts
+{
+<script>
+
+    var chart_config = {
+        chart: {
+            container: "#collapsable-example",
+
+            animateOnInit: true,
+
+            node: {
+                collapsable: true
+            },
+            animation: {
+                nodeAnimation: "easeOutBounce",
+                nodeSpeed: 700,
+                connectorsAnimation: "bounce",
+                connectorsSpeed: 700
+            }
+        },
+        nodeStructure: {
+            innerHtml: "<h3>Peoples</h3>",
+            children: [
+                @helper ShowTree(List<Zenefits.Assignment.Entities.EmployeeHierarchy> items)
+                {
+                        for(int i =0; i< items.Count(); i++)
+                        {
+                            @Html.Raw('{')
+
+                            @Html.Raw("innerHTML: \"<h3>"+ items[i].FirstName +"</h3>\",")
+                            @Html.Raw("collapsed: true")
+
+                                if(items[i].Child.Any())
+                                {
+                                    @Html.Raw(", children: [")
+                                    @ShowTree(items[i].Child)
+                                    @Html.Raw("]")
+                                }
+                            if(i == items.Count() - 1)
+                            {
+                                @Html.Raw("}")
+                            }
+                            else
+                            {
+                                @Html.Raw("},")
+
+                            }
+                        }
+                }
+                @ShowTree(Model)
+            ]
+        }
+    }
+    tree = new Treant(chart_config);
+</script>
+}

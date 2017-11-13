@@ -1,0 +1,22 @@
+﻿
+@model List<Zenefits.Assignment.Entities.CompanyDatumEntity>
+
+<div class="column-side" role="complementary">
+    <div class="nav-practice-desktop" data-set="mav-practice">
+        <nav id="nav-practice" class="nav-practice fl-accordion fl-drop" data-bp="700" role="navigation">
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <a href="javascript:void(0);">@item.Name</a>
+                        <ul>
+                            <li>@Html.ActionLink("Departments", "DepartmentDetails", "MyCompany", new { companyId = item.Id }, null)</li>
+                            <li>@Html.ActionLink("Employees", "EmployeeDetails", "MyCompany", new { companyId = item.Id }, null)</li>
+                        </ul>
+                    </li>
+                }                
+                <li class='togglebox-close'><a href='javascript:void(0);' class='close' data-target='nav-practice'><span class='fa fa-times' aria-hidden='true'></span> Close</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
